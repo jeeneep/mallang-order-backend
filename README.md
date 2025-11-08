@@ -5,15 +5,21 @@
 
 - '말랑오더'는 AI를 활용한 음성 인식 주문을 지원하여 디지털 소외 계층도 쉽게 이용할 수 있도록 구현된 배리어 프리(Barrier-Free) 키오스크 시스템입니다.
 - 시연 영상(클릭하여 재생⬇️)
-
-  https://youtu.be/xeWMnRbKrRQ
-
 <p align="center">
-  <img src="images/key_features_and_ui_overview.png" alt="주요 기능 및 UI 개요" width="800"/>
+  <a href="https://youtu.be/xeWMnRbKrRQ" target="_blank">
+    <img src="https://img.youtube.com/vi/xeWMnRbKrRQ/maxresdefault.jpg" 
+         alt="말랑오더 시연 영상 썸네일" 
+         style="max-width: 500px; border: 2px solid #ddd; border-radius: 8px;">
+  </a>
+</p>
+
+- 상세 설명
+<p align="center">
+  <img src="imges/key_features_and_ui_overview.png" alt="주요 기능 및 UI 개요" width="500"/>
 </p>
 
 <p align="center">
-  <img src="images/system_architecture.png" alt="시스템 구조도" width="800"/>
+  <img src="imges/system_architecture.png" alt="시스템 구조도" width="500"/>
 </p>
 
 
@@ -48,7 +54,7 @@
 
 ## ERD
 <p align="center">
-  <img src="images/erd.png" alt="ERD" width="800"/>
+  <img src="imges/erd.png" alt="ERD" width="500"/>
 </p>
 
 ## 기술 스택 (Tech Stacks)
@@ -91,26 +97,37 @@
 
 ### AI 서버 연동 및 대화 맥락 관리 (AI Integration & Context Management)
 
-- API 통신 전담 모듈: AI 서버(Flask 기반)와의 통신을 위한 RESTful 클라이언트를 ai 도메인 내에 별도로 구현했습니다.
+- API 통신 전담 모듈
+  - AI 서버(Flask 기반)와의 통신을 위한 RESTful 클라이언트를 ai 도메인 내에 별도로 구현했습니다.
 
-- 데이터 포맷 및 전송: 사용자 음성 텍스트 외에, AI가 주문 의도를 정확히 파악하도록 현재 키오스크별 메뉴 목록 및 **대화 히스토리(Context)**를 JSON 형태로 가공하여 AI 서버로 전송.
+- 데이터 포맷 및 전송
+  - 사용자 음성 텍스트 외에, AI가 주문 의도를 정확히 파악하도록 현재 키오스크별 메뉴 목록 및 대화 히스토리(Context)를 JSON 형태로 가공하여 AI 서버로 전송.
 
-- 의도(Intent) 기반 주문 처리: AI 서버로부터 응답으로 받은 의도(e.g., update_cart, order, menu_search)를 분류하여, 백엔드 로직(주문/장바구니 서비스)으로 분기하여 실행함으로써 대화형 주문의 안정성을 확보.
+- 의도(Intent) 기반 주문 처리
+  - AI 서버로부터 응답으로 받은 의도(e.g., update_cart, order, menu_search)를 분류하여, 백엔드 로직(주문/장바구니 서비스)으로 분기하여 실행함으로써 대화형 주문의 안정성을 확보.
 
-- 시스템 구조 분리: AI 서버가 다운되더라도 핵심 DB와 인증 시스템에는 영향이 없도록 API 게이트웨이 역할을 분리하여 시스템 안정성을 강화.
+- 시스템 구조 분리
+  - AI 서버가 다운되더라도 핵심 DB와 인증 시스템에는 영향이 없도록 API 게이트웨이 역할을 분리하여 시스템 안정성을 강화.
 
 ### 인증 및 보안 시스템 구축
 
-- JWT 기반 인증: Spring Security를 활용하여 관리자 및 사용자 인증을 JWT 토큰 기반으로 구현. Access Token과 Refresh Token을 분리하여 관리.
+- JWT 기반 인증
+  - Spring Security를 활용하여 관리자 및 사용자 인증을 JWT 토큰 기반으로 구현. 
+  - Access Token과 Refresh Token을 분리하여 관리.
 
-- Redis 활용 (토큰 관리): Refresh Token을 Redis에 저장하고 만료 시간을 관리하여 토큰의 안전한 재발급 및 세션 유지를 구현.
+- Redis 활용 (토큰 관리)
+  - Refresh Token을 Redis에 저장하고 만료 시간을 관리하여 토큰의 안전한 재발급 및 세션 유지를 구현.
 
-- HTTPS 적용: Let’s Encrypt를 통해 API 통신 구간에 HTTPS를 적용하여 데이터 보안 강화.
+- HTTPS 적용
+  - Let’s Encrypt를 통해 API 통신 구간에 HTTPS를 적용하여 데이터 보안 강화.
 
 ### 아키텍처 및 데이터 관리
 
-- Gradle 환경 설정: 빌드 자동화 및 의존성 관리를 위해 Gradle을 메인 빌드 도구로 채택.
+- Gradle 환경 설정
+  - 빌드 자동화 및 의존성 관리를 위해 Gradle을 메인 빌드 도구로 채택.
 
-- 계층형 설계 및 JPA: Controller -> Service -> Repository의 표준 계층 분리를 통해 유지보수 용이성을 확보하고, JPA를 통해 객체 지향적인 데이터 접근 구현.
+- 계층형 설계 및 JPA
+  - Controller -> Service -> Repository의 표준 계층 분리를 통해 유지보수 용이성을 확보하고, JPA를 통해 객체 지향적인 데이터 접근 구현.
 
-- MySQL & Redis 활용: MySQL은 메뉴/주문 등 영구 데이터를, Redis는 캐싱 및 관리자 세션 관리에 활용하여 성능과 신뢰성을 동시에 추구.
+- MySQL & Redis 활용
+  - MySQL은 메뉴/주문 등 영구 데이터를, Redis는 캐싱 및 관리자 세션 관리에 활용하여 성능과 신뢰성을 동시에 추구.
